@@ -10,6 +10,8 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/subosito/gotenv"
+
 	"github.com/takama/daemon"
 )
 
@@ -77,6 +79,9 @@ func (service *Service) Manage() (string, error) {
 }
 
 func init() {
+
+	gotenv.Load("/root/.env")
+
 	logFile, _ := os.OpenFile("/var/log/kinetik.out", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	errFile, _ := os.OpenFile("/var/log/kinetik.err", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	stdlog = log.New(logFile, "", log.Ldate|log.Ltime)
